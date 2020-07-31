@@ -31,7 +31,7 @@ class BarChart extends Component {
             .domain([0, d3.max(_self.props.data)])
             .range([0, _self.height - _self.margin * 2]);
 
-        const svg = d3.select(this.node)
+        const svg = d3.select(_self.node)
             .attr("width", _self.width)
             .attr("height", _self.height);
 
@@ -64,7 +64,7 @@ class BarChart extends Component {
         svg.append("g")
             .attr("class", "axis")
             .attr("transform", () => {
-                return `translate(${_self.margin}, 0)`
+                return `translate(${_self.margin}, 0)`;
             })
             .call(yAxis);
     }

@@ -11,7 +11,6 @@ class LineChart extends Component {
         this.width = props.width || this.width;
         this.height = props.height || this.height;
         this.margin = props.margin || this.margin;
-        this.createLineChart = this.createLineChart.bind(this);
     }
 
     componentDidMount() {
@@ -23,26 +22,21 @@ class LineChart extends Component {
 
     createLineChart() {
         const _self = this;
-        const node = this.node
         const x = d3.scaleLinear()
-                .domain([0, 10])
-                .range([this.margin, this.width - this.margin]);
+                .domain([0, d3.max(_self.props.data[0], (d) => {return +d.x;})])
+                .range([_self.margin, _self.width - _self.margin]);
         const y = d3.scaleLinear()
-                .domain([0, 10])
-                .range([this.height - this.margin, this.margin]);
-
-        d3.range(10).map((i) => {
-            return {x: i, y: Math.sin(i) + 5};
-        });
+                .domain([0, d3.max(_self.props.data[0], (d) => {return +d.y;})])
+                .range([_self.height - _self.margin, _self.margin]);
 
         const line = d3.line()
             .x((d) => {return x(d.x);})
             .y((d) => {return y(d.y);});
 
-        const svg = d3.select(node);
+        const svg = d3.select(_self.node);
 
-        svg.attr("height", this.height)
-            .attr("width", this.width);
+        svg.attr("height", _self.height)
+            .attr("width", _self.width);
 
         svg.selectAll("path")
             .data(_self.props.data)
@@ -55,26 +49,27 @@ class LineChart extends Component {
     }
 
     renderAxes(svg, x, y){
-        const _self = this
+        const _self = this;
         const xAxis = d3.axisBottom()
-            .scale(x.range([0, this.quadrantWidth()]))
+            .scale(x.range([0, (_self.width - 2 * _self.margin)]))
             .scale(x);
 
         const yAxis = d3.axisLeft()
-            .scale(y.range([this.quadrantHeight(), 0]))
+            .scale(y.range([(_self.height - 2 * _self.margin), 0]))
             .scale(y);
 
         svg.append("g")
             .attr("class", "axis")
-            .attr("transform", function(){
-                return `translate(${_self.xStart()}, ${_self.yStart()})`
+            .attr("transform", () => {
+                const yStart = _self.height - _self.margin;
+                return `translate(${_self.margin}, ${yStart})`;
             })
             .call(xAxis);
 
         svg.append("g")
             .attr("class", "axis")
-            .attr("transform", function(){
-                return `translate(${_self.xStart()}, ${_self.yEnd()})`
+            .attr("transform", () => {
+                return `translate(${_self.margin}, ${_self.margin})`;
             })
             .call(yAxis);
     }
@@ -83,13 +78,6 @@ class LineChart extends Component {
         return <svg ref={node => this.node = node}>
         </svg>
     }
-
-    xStart(){ return this.margin;}
-    yStart(){ return this.height - this.margin;}
-    xEnd(){ return this.width - this.margin;}
-    yEnd(){ return this.margin;}
-    quadrantWidth(){ return this.width - 2 * this.margin;}
-    quadrantHeight(){ return this.height - 2 * this.margin;}
 }
 
 export default LineChart
