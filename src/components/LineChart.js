@@ -54,11 +54,6 @@ class LineChart extends Component {
         this.renderAxes(svg, x, y);
     }
 
-    render() {
-        return <svg ref={node => this.node = node}>
-        </svg>
-    }
-
     renderAxes(svg, x, y){
         const _self = this
         const xAxis = d3.axisBottom()
@@ -82,6 +77,11 @@ class LineChart extends Component {
                 return `translate(${_self.xStart()}, ${_self.yEnd()})`
             })
             .call(yAxis);
+    }
+
+    render() {
+        return <svg ref={node => this.node = node}>
+        </svg>
     }
 
     xStart(){ return this.margin;}
