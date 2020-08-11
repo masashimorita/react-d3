@@ -1,10 +1,12 @@
 import React, { Component } from 'react'
 import LineChart from './components/LineChart'
 import BarChart from './components/BarChart'
+import DonutChart from './components/DonutChart'
 
 // data
 import lineChartData from './data/line_chart'
 import barChartData from './data/bar_chart'
+import donutChartData from './data/donut_chart'
 
 class App extends Component {
     constructor(props){
@@ -21,6 +23,10 @@ class App extends Component {
                 <div>
                     <h2>React D3.js Bar Chart</h2>
                     <BarChart data={barChartData} />
+                </div>
+                <div>
+                    <h2>React D3.js Donut Chart</h2>
+                    <DonutChart data={donutChartData} />
                 </div>
             </div>
         );

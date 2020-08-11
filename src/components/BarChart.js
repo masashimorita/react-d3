@@ -47,7 +47,7 @@ class BarChart extends Component {
             })
             .attr("width", (d) => {return barWidth - _self.barMargin;})
             .attr("height", (d) => {return yScale(d);})
-            .attr("fill", "#dddddd");
+            .attr("fill", "steelblue");
 
         this.renderAxes(svg);
     }
