@@ -23,10 +23,10 @@ class LineChart extends Component {
     createLineChart() {
         const _self = this;
         const x = d3.scaleLinear()
-                .domain([0, d3.max(_self.props.data[0], (d) => {return +d.x;})])
+                .domain([0, d3.max(_self.props.data, (d) => {return +d.x;})])
                 .range([_self.margin, _self.width - _self.margin]);
         const y = d3.scaleLinear()
-                .domain([0, d3.max(_self.props.data[0], (d) => {return +d.y;})])
+                .domain([0, d3.max(_self.props.data, (d) => {return +d.y;})])
                 .range([_self.height - _self.margin, _self.margin]);
 
         const line = d3.line()
@@ -39,7 +39,7 @@ class LineChart extends Component {
             .attr("width", _self.width);
 
         svg.selectAll("path")
-            .data(_self.props.data)
+            .data([_self.props.data])
             .enter()
             .append("path")
             .attr("class", "line")
